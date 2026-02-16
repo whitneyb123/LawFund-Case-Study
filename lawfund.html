@@ -619,6 +619,49 @@ header {
   .law-fact:last-child { border-bottom: none; }
   header { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
+
+.disclaimer-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-top: 12px;
+  font-size: 11px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.45);
+  font-family: var(--mono);
+}
+.disclaimer-note svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  opacity: 0.5;
+}
+.privacy-note {
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  font-family: var(--mono);
+  text-align: center;
+  margin-top: 8px;
+  letter-spacing: 0.02em;
+}
+.review-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: rgba(251,191,36,0.06);
+  border: 1px solid rgba(251,191,36,0.15);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-top: 12px;
+  font-size: 11px;
+  line-height: 1.6;
+  color: rgba(251,191,36,0.7);
+  font-family: var(--mono);
+}
+.review-note svg { flex-shrink: 0; margin-top: 2px; }
 </style>
 </head>
 <body>
@@ -745,6 +788,10 @@ header {
           <div class="loading-text">Analyzing your offer...</div>
         </div>
       </div>
+      <div class="disclaimer-note">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        For informational purposes only — not legal or financial advice. Numbers are estimates based on your inputs. Verify all figures with your financial aid office before making decisions.
+      </div>
       <div class="btn-row" style="margin-top:0">
         <span class="skip-compare" onclick="skipToAppeal()">Skip to appeal letter →</span>
         <button class="btn-primary" onclick="goToStep2()">
@@ -812,6 +859,10 @@ header {
           <div class="loading-bar"><div class="loading-fill"></div></div>
           <div class="loading-text">Building comparison...</div>
         </div>
+      </div>
+      <div class="disclaimer-note">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        This comparison is based on the numbers you entered. Non-financial factors — school reputation, location, career outcomes — matter too. Use this as a starting point, not a final answer.
       </div>
       <div class="btn-row" style="margin-top:0">
         <div></div>
@@ -903,6 +954,11 @@ header {
           <div class="loading-text">Generating submission tips...</div>
         </div>
       </div>
+      <div class="review-note">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Review before sending. Edit the letter to reflect your voice and situation — remove or adjust any detail that feels off. Don't include SSNs, account numbers, or sensitive identifiers.
+      </div>
+      <div class="privacy-note">No data entered here is stored or transmitted anywhere except to generate your analysis.</div>
     </div>
   </div>
 
@@ -940,36 +996,19 @@ function showPanel(n) {
   if (n > 1) document.getElementById('hero').classList.add('hidden');
 }
 
-const API_URL = 'https://lawfund-api.vercel.app/api/claude'; 
-
 async function callClaude(systemPrompt, userMessage) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10000);
-
-  try {
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      signal: controller.signal,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ systemPrompt, userMessage }),
-    });
-
-    clearTimeout(timeout);
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error ?? 'Request failed');
-    }
-
-    return data.text;
-
-  } catch (err) {
-    clearTimeout(timeout);
-    if (err.name === 'AbortError') {
-      throw new Error('Request timed out — please try again.');
-    }
-    throw err;
-  }
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userMessage }]
+    })
+  });
+  const data = await response.json();
+  return data.content?.[0]?.text || 'Unable to generate analysis. Please try again.';
 }
 
 function renderBodyHTML(text) {
