@@ -662,6 +662,58 @@ header {
   font-family: var(--mono);
 }
 .review-note svg { flex-shrink: 0; margin-top: 2px; }
+
+/* Autocomplete */
+.autocomplete-wrap {
+  position: relative;
+}
+.autocomplete-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #1a1a1a;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 100;
+  display: none;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.autocomplete-dropdown.open { display: block; }
+.autocomplete-item {
+  padding: 10px 14px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: background 0.1s;
+}
+.autocomplete-item:last-child { border-bottom: none; }
+.autocomplete-item:hover, .autocomplete-item.active {
+  background: rgba(255,255,255,0.07);
+}
+.autocomplete-item-name {
+  font-size: 13px;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 2px;
+}
+.autocomplete-item-tuition {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  font-family: var(--mono);
+}
+.tuition-autofilled {
+  border-color: rgba(74,222,128,0.4) !important;
+  background: rgba(74,222,128,0.04) !important;
+}
+.autofill-note {
+  font-size: 10px;
+  color: rgba(74,222,128,0.6);
+  font-family: var(--mono);
+  margin-top: 4px;
+  display: none;
+}
+.autofill-note.visible { display: block; }
 </style>
 </head>
 <body>
@@ -736,7 +788,11 @@ header {
     <div class="card">
       <div class="field">
         <label>Law School Name</label>
-        <input type="text" id="school1" placeholder="e.g. Georgetown University Law Center">
+        <div class="autocomplete-wrap">
+          <input type="text" id="school1" placeholder="Search law schools..." autocomplete="off">
+          <div class="autocomplete-dropdown" id="school1Dropdown"></div>
+        </div>
+        <div class="autofill-note" id="school1Note"></div>
       </div>
       <div class="field-row">
         <div class="field">
@@ -813,7 +869,11 @@ header {
     <div class="card">
       <div class="field">
         <label>Second Law School Name</label>
-        <input type="text" id="school2" placeholder="e.g. Fordham University School of Law">
+        <div class="autocomplete-wrap">
+          <input type="text" id="school2" placeholder="Search law schools..." autocomplete="off">
+          <div class="autocomplete-dropdown" id="school2Dropdown"></div>
+        </div>
+        <div class="autofill-note" id="school2Note"></div>
       </div>
       <div class="field-row">
         <div class="field">
@@ -995,6 +1055,492 @@ function showPanel(n) {
   setTab(n);
   if (n > 1) document.getElementById('hero').classList.add('hidden');
 }
+
+const LAW_SCHOOLS = [
+  {
+    "name": "Yale Law School",
+    "tuition": 74400
+  },
+  {
+    "name": "Harvard Law School",
+    "tuition": 74800
+  },
+  {
+    "name": "Stanford Law School",
+    "tuition": 74000
+  },
+  {
+    "name": "Columbia Law School",
+    "tuition": 77208
+  },
+  {
+    "name": "University of Chicago Law School",
+    "tuition": 75756
+  },
+  {
+    "name": "New York University School of Law",
+    "tuition": 76394
+  },
+  {
+    "name": "University of Pennsylvania Carey Law School",
+    "tuition": 75500
+  },
+  {
+    "name": "University of Virginia School of Law",
+    "tuition": 73800
+  },
+  {
+    "name": "Duke University School of Law",
+    "tuition": 74180
+  },
+  {
+    "name": "Northwestern Pritzker School of Law",
+    "tuition": 75516
+  },
+  {
+    "name": "Cornell Law School",
+    "tuition": 74358
+  },
+  {
+    "name": "Georgetown University Law Center",
+    "tuition": 73170
+  },
+  {
+    "name": "University of Michigan Law School",
+    "tuition": 68534
+  },
+  {
+    "name": "University of Texas School of Law",
+    "tuition": 43610
+  },
+  {
+    "name": "UCLA School of Law",
+    "tuition": 55713
+  },
+  {
+    "name": "Vanderbilt University Law School",
+    "tuition": 72510
+  },
+  {
+    "name": "Washington University School of Law",
+    "tuition": 72000
+  },
+  {
+    "name": "University of Southern California Gould School of Law",
+    "tuition": 74890
+  },
+  {
+    "name": "Emory University School of Law",
+    "tuition": 67952
+  },
+  {
+    "name": "University of Minnesota Law School",
+    "tuition": 52962
+  },
+  {
+    "name": "Boston University School of Law",
+    "tuition": 62670
+  },
+  {
+    "name": "University of Notre Dame Law School",
+    "tuition": 68320
+  },
+  {
+    "name": "George Washington University Law School",
+    "tuition": 71530
+  },
+  {
+    "name": "University of Alabama School of Law",
+    "tuition": 29160
+  },
+  {
+    "name": "Arizona State University Sandra Day O'Connor College of Law",
+    "tuition": 31356
+  },
+  {
+    "name": "Boston College Law School",
+    "tuition": 62396
+  },
+  {
+    "name": "Brigham Young University J. Reuben Clark Law School",
+    "tuition": 17040
+  },
+  {
+    "name": "University of California Berkeley School of Law",
+    "tuition": 56948
+  },
+  {
+    "name": "University of California Davis School of Law",
+    "tuition": 52226
+  },
+  {
+    "name": "University of California Hastings College of the Law",
+    "tuition": 49928
+  },
+  {
+    "name": "University of California Irvine School of Law",
+    "tuition": 51986
+  },
+  {
+    "name": "University of Colorado Law School",
+    "tuition": 38016
+  },
+  {
+    "name": "University of Connecticut School of Law",
+    "tuition": 34526
+  },
+  {
+    "name": "University of Florida Levin College of Law",
+    "tuition": 24084
+  },
+  {
+    "name": "Fordham University School of Law",
+    "tuition": 67000
+  },
+  {
+    "name": "George Mason University Antonin Scalia Law School",
+    "tuition": 39040
+  },
+  {
+    "name": "University of Georgia School of Law",
+    "tuition": 22574
+  },
+  {
+    "name": "Gonzaga University School of Law",
+    "tuition": 47828
+  },
+  {
+    "name": "Hofstra University Maurice A. Deane School of Law",
+    "tuition": 60880
+  },
+  {
+    "name": "University of Houston Law Center",
+    "tuition": 34026
+  },
+  {
+    "name": "Howard University School of Law",
+    "tuition": 34218
+  },
+  {
+    "name": "University of Illinois College of Law",
+    "tuition": 43142
+  },
+  {
+    "name": "Indiana University Maurer School of Law",
+    "tuition": 35482
+  },
+  {
+    "name": "Indiana University Robert H. McKinney School of Law",
+    "tuition": 25884
+  },
+  {
+    "name": "University of Iowa College of Law",
+    "tuition": 30650
+  },
+  {
+    "name": "University of Kansas School of Law",
+    "tuition": 22206
+  },
+  {
+    "name": "Lewis & Clark Law School",
+    "tuition": 51696
+  },
+  {
+    "name": "Loyola University Chicago School of Law",
+    "tuition": 55692
+  },
+  {
+    "name": "Loyola Law School Los Angeles",
+    "tuition": 60156
+  },
+  {
+    "name": "Marquette University Law School",
+    "tuition": 49554
+  },
+  {
+    "name": "University of Maryland Francis King Carey School of Law",
+    "tuition": 36480
+  },
+  {
+    "name": "Mercer University Walter F. George School of Law",
+    "tuition": 40428
+  },
+  {
+    "name": "University of Miami School of Law",
+    "tuition": 59690
+  },
+  {
+    "name": "Michigan State University College of Law",
+    "tuition": 46800
+  },
+  {
+    "name": "University of Missouri School of Law",
+    "tuition": 23256
+  },
+  {
+    "name": "University of Nebraska College of Law",
+    "tuition": 20622
+  },
+  {
+    "name": "New England Law Boston",
+    "tuition": 52920
+  },
+  {
+    "name": "University of New Mexico School of Law",
+    "tuition": 16682
+  },
+  {
+    "name": "New York Law School",
+    "tuition": 59076
+  },
+  {
+    "name": "University of North Carolina School of Law",
+    "tuition": 24952
+  },
+  {
+    "name": "Northeastern University School of Law",
+    "tuition": 57816
+  },
+  {
+    "name": "Northern Illinois University College of Law",
+    "tuition": 20828
+  },
+  {
+    "name": "University of North Dakota School of Law",
+    "tuition": 14504
+  },
+  {
+    "name": "Ohio State University Moritz College of Law",
+    "tuition": 34810
+  },
+  {
+    "name": "University of Oklahoma College of Law",
+    "tuition": 20996
+  },
+  {
+    "name": "University of Oregon School of Law",
+    "tuition": 36792
+  },
+  {
+    "name": "Pace University Elisabeth Haub School of Law",
+    "tuition": 55770
+  },
+  {
+    "name": "Penn State Dickinson Law",
+    "tuition": 56088
+  },
+  {
+    "name": "University of Pittsburgh School of Law",
+    "tuition": 47628
+  },
+  {
+    "name": "Rutgers Law School",
+    "tuition": 32736
+  },
+  {
+    "name": "University of San Diego School of Law",
+    "tuition": 60492
+  },
+  {
+    "name": "University of San Francisco School of Law",
+    "tuition": 58728
+  },
+  {
+    "name": "Santa Clara University School of Law",
+    "tuition": 60684
+  },
+  {
+    "name": "Seattle University School of Law",
+    "tuition": 52986
+  },
+  {
+    "name": "Seton Hall University School of Law",
+    "tuition": 59364
+  },
+  {
+    "name": "Southern Methodist University Dedman School of Law",
+    "tuition": 62640
+  },
+  {
+    "name": "St. John's University School of Law",
+    "tuition": 60388
+  },
+  {
+    "name": "Suffolk University Law School",
+    "tuition": 54716
+  },
+  {
+    "name": "Syracuse University College of Law",
+    "tuition": 59736
+  },
+  {
+    "name": "Temple University Beasley School of Law",
+    "tuition": 30618
+  },
+  {
+    "name": "University of Tennessee College of Law",
+    "tuition": 21870
+  },
+  {
+    "name": "Texas A&M University School of Law",
+    "tuition": 25536
+  },
+  {
+    "name": "Thomas Jefferson School of Law",
+    "tuition": 48600
+  },
+  {
+    "name": "Touro University Jacob D. Fuchsberg Law Center",
+    "tuition": 54648
+  },
+  {
+    "name": "Tulane University Law School",
+    "tuition": 60498
+  },
+  {
+    "name": "University of Tulsa College of Law",
+    "tuition": 37494
+  },
+  {
+    "name": "Vermont Law and Graduate School",
+    "tuition": 50724
+  },
+  {
+    "name": "Villanova University Charles Widger School of Law",
+    "tuition": 57108
+  },
+  {
+    "name": "Wake Forest University School of Law",
+    "tuition": 52716
+  },
+  {
+    "name": "Washburn University School of Law",
+    "tuition": 20592
+  },
+  {
+    "name": "University of Washington School of Law",
+    "tuition": 37218
+  },
+  {
+    "name": "Wayne State University Law School",
+    "tuition": 30294
+  },
+  {
+    "name": "West Virginia University College of Law",
+    "tuition": 19980
+  },
+  {
+    "name": "Western New England University School of Law",
+    "tuition": 46170
+  },
+  {
+    "name": "Whittier Law School",
+    "tuition": 44100
+  },
+  {
+    "name": "Willamette University College of Law",
+    "tuition": 44550
+  },
+  {
+    "name": "College of William & Mary Law School",
+    "tuition": 30700
+  },
+  {
+    "name": "University of Wisconsin Law School",
+    "tuition": 24536
+  },
+  {
+    "name": "University of Wyoming College of Law",
+    "tuition": 16626
+  }
+];
+
+
+// ── AUTOCOMPLETE ──────────────────────────────────────────────────────────
+
+function setupAutocomplete(inputId, dropdownId, tuitionId, noteId) {
+  const input    = document.getElementById(inputId);
+  const dropdown = document.getElementById(dropdownId);
+  const tuitionEl = document.getElementById(tuitionId);
+  const noteEl   = noteId ? document.getElementById(noteId) : null;
+  let activeIdx  = -1;
+
+  function fmt(n) { return '$' + n.toLocaleString(); }
+
+  function getMatches(query) {
+    if (!query || query.length < 2) return [];
+    const q = query.toLowerCase();
+    return LAW_SCHOOLS
+      .filter(s => s.name.toLowerCase().includes(q))
+      .slice(0, 8);
+  }
+
+  function renderDropdown(matches) {
+    if (!matches.length) { dropdown.classList.remove('open'); return; }
+    dropdown.innerHTML = matches.map((s, i) => `
+      <div class="autocomplete-item" data-idx="${i}" data-name="${s.name}" data-tuition="${s.tuition}">
+        <div class="autocomplete-item-name">${s.name}</div>
+        <div class="autocomplete-item-tuition">${fmt(s.tuition)}/yr tuition</div>
+      </div>
+    `).join('');
+    dropdown.classList.add('open');
+    activeIdx = -1;
+
+    dropdown.querySelectorAll('.autocomplete-item').forEach(el => {
+      el.addEventListener('mousedown', e => {
+        e.preventDefault();
+        selectSchool(el.dataset.name, parseInt(el.dataset.tuition));
+      });
+    });
+  }
+
+  function selectSchool(name, tuition) {
+    input.value = name;
+    tuitionEl.value = tuition;
+    tuitionEl.classList.add('tuition-autofilled');
+    if (noteEl) { noteEl.textContent = `Tuition auto-filled from LST data (${fmt(tuition)}/yr) — verify with school`; noteEl.classList.add('visible'); }
+    dropdown.classList.remove('open');
+    activeIdx = -1;
+  }
+
+  input.addEventListener('input', () => {
+    tuitionEl.classList.remove('tuition-autofilled');
+    if (noteEl) noteEl.classList.remove('visible');
+    renderDropdown(getMatches(input.value));
+  });
+
+  input.addEventListener('keydown', e => {
+    const items = dropdown.querySelectorAll('.autocomplete-item');
+    if (!items.length) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      activeIdx = Math.min(activeIdx + 1, items.length - 1);
+      items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      activeIdx = Math.max(activeIdx - 1, 0);
+      items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+    } else if (e.key === 'Enter' && activeIdx >= 0) {
+      e.preventDefault();
+      const el = items[activeIdx];
+      selectSchool(el.dataset.name, parseInt(el.dataset.tuition));
+    } else if (e.key === 'Escape') {
+      dropdown.classList.remove('open');
+    }
+  });
+
+  document.addEventListener('click', e => {
+    if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.classList.remove('open');
+    }
+  });
+}
+
+// Initialize both school autocompletes on load
+document.addEventListener('DOMContentLoaded', () => {
+  setupAutocomplete('school1', 'school1Dropdown', 'tuition1', 'school1Note');
+  setupAutocomplete('school2', 'school2Dropdown', 'tuition2', 'school2Note');
+});
 
 async function callClaude(systemPrompt, userMessage) {
   const response = await fetch('https://api.anthropic.com/v1/messages', {
