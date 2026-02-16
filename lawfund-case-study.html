@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LawFund — Whitney Beamer · Work Sample</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@400;500&family=Mulish:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #0a0a0a;
+  --ink: #1a1a1a;
+  --ink-mid: #3d3d3d;
+  --ink-soft: #6b6b6b;
+  --ink-faint: #aaaaaa;
+  --white: #ffffff;
+  --off-white: #f7f6f2;
+  --warm-gray: #eeece6;
+  --border: #e0ddd6;
+  --border-dark: #c8c4bc;
+  --amber: #d4870a;
+  --amber-light: #f0a020;
+  --amber-pale: #fdf4e0;
+  --red: #c0392b;
+  --navy: #0f1923;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Mulish', sans-serif;
+  background: var(--white);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ── FIXED NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-left {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+
+.nav-wordmark {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--black);
+  letter-spacing: -0.3px;
+}
+
+.nav-slash {
+  color: var(--ink-faint);
+  font-weight: 300;
+}
+
+.nav-author {
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-weight: 400;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav-link {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-link:hover { color: var(--amber); }
+
+.nav-cta {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--white);
+  background: var(--black);
+  padding: 8px 16px;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: background 0.18s;
+}
+
+.nav-cta:hover { background: var(--amber); }
+
+/* ── HERO ── */
+.hero {
+  padding: 140px 56px 80px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Large watermark number */
+.hero::before {
+  content: '01';
+  position: absolute;
+  right: -20px;
+  top: 60px;
+  font-family: 'Playfair Display', serif;
+  font-size: 280px;
+  font-weight: 900;
+  color: var(--warm-gray);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.hero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 40px;
+  animation: fadeUp 0.5s ease both;
+}
+
+.meta-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 2px;
+}
+
+.meta-tag.amber {
+  background: var(--amber-pale);
+  color: var(--amber);
+  border: 1px solid rgba(212,135,10,0.25);
+}
+
+.meta-tag.black {
+  background: var(--black);
+  color: var(--white);
+}
+
+.meta-divider { width: 32px; height: 1px; background: var(--border-dark); }
+
+.meta-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-faint);
+  letter-spacing: 1px;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 6.5vw, 82px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  color: var(--black);
+  margin-bottom: 28px;
+  animation: fadeUp 0.5s 0.08s ease both;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--amber);
+}
+
+.hero-deck {
+  max-width: 600px;
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--ink-mid);
+  font-weight: 300;
+  margin-bottom: 44px;
+  animation: fadeUp 0.5s 0.16s ease both;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  animation: fadeUp 0.5s 0.24s ease both;
+}
+
+.hero-stat {
+  flex: 1;
+  padding: 24px 28px;
+  border-right: 1px solid var(--border);
+}
+
+.hero-stat:last-child { border-right: none; }
+
+.hero-stat-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--black);
+  letter-spacing: -1px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.hero-stat-val.amber { color: var(--amber); }
+.hero-stat-val.red { color: var(--red); }
+
+.hero-stat-label {
+  font-size: 11px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SECTION WRAPPER ── */
+.section {
+  border-bottom: 1px solid var(--border);
+}
+
+.section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 56px;
+}
+
+/* ── SECTION LABEL ── */
+.section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 52px;
+}
+
+.eyebrow-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--amber);
+  letter-spacing: 1.5px;
+}
+
+.eyebrow-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.eyebrow-rule { flex: 1; height: 1px; background: var(--border); }
+
+/* ── PROBLEM SECTION ── */
+.problem-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: start;
+}
+
+.problem-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--black);
+  letter-spacing: -0.5px;
+  margin-bottom: 24px;
+}
+
+.problem-headline em {
+  font-style: italic;
+  color: var(--amber);
+}
+
+.problem-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.problem-body p {
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--ink-mid);
+  font-weight: 300;
+}
+
+.callout-box {
+  background: var(--amber-pale);
+  border-left: 3px solid var(--amber);
+  padding: 18px 22px;
+  border-radius: 0 4px 4px 0;
+}
+
+.callout-box p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink-mid);
+  font-style: italic;
+  margin: 0 !important;
+}
+
+.callout-box strong { color: var(--ink); font-style: normal; font-weight: 600; }
+
+/* ── DECISIONS ── */
+.decisions-header {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 72px;
+  margin-bottom: 48px;
+  align-items: end;
+}
+
+.decisions-intro h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--black);
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.decisions-intro p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+  font-weight: 300;
+}
+
+.decisions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.decision-row {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  gap: 24px;
+  align-items: start;
+  padding: 28px 0;
+  border-top: 1px solid var(--border);
+  transition: background 0.18s;
+}
+
+.decision-row:last-child { border-bottom: 1px solid var(--border); }
+
+.decision-row:hover { background: var(--off-white); margin: 0 -24px; padding: 28px 24px; }
+
+.decision-index {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-faint);
+  letter-spacing: 1px;
+  padding-top: 3px;
+}
+
+.decision-content {}
+
+.decision-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.decision-desc {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  font-weight: 300;
+}
+
+.decision-tradeoff {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--amber);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  padding-top: 4px;
+}
+
+/* ── BUILD NOTE ── */
+.build-note {
+  background: var(--black);
+  color: var(--white);
+  border-radius: 6px;
+  padding: 36px 40px;
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.build-note-left h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 12px;
+  color: var(--white);
+}
+
+.build-note-left p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.55);
+  font-weight: 300;
+}
+
+.build-note-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.build-fact {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.build-fact-icon {
+  width: 20px;
+  height: 20px;
+  background: var(--amber);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.build-fact-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.7);
+  font-weight: 300;
+}
+
+.build-fact-text strong { color: var(--white); font-weight: 600; }
+
+/* ── TOOL SECTION ── */
+.tool-section {
+  background: var(--off-white);
+  border-bottom: 1px solid var(--border);
+}
+
+.tool-section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 56px;
+}
+
+.tool-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: end;
+  margin-bottom: 44px;
+}
+
+.tool-intro h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--black);
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+
+.tool-intro h2 em {
+  font-style: italic;
+  color: var(--amber);
+}
+
+.tool-intro-right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tool-intro-right p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+  font-weight: 300;
+}
+
+.tool-flow {
+  display: flex;
+  gap: 0;
+  margin-bottom: 36px;
+  border: 1px solid var(--border-dark);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--white);
+}
+
+.tool-flow-step {
+  flex: 1;
+  padding: 16px 20px;
+  border-right: 1px solid var(--border);
+  position: relative;
+}
+
+.tool-flow-step:last-child { border-right: none; }
+
+.tool-flow-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--amber);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.tool-flow-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 3px;
+}
+
+.tool-flow-desc {
+  font-size: 11px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+.tool-arrow {
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background: var(--amber);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+/* ── EMBED ── */
+.embed-shell {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border-dark);
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.04),
+    0 8px 24px rgba(0,0,0,0.08),
+    0 32px 64px rgba(0,0,0,0.1);
+}
+
+.embed-bar {
+  background: #f0ede8;
+  border-bottom: 1px solid var(--border);
+  padding: 11px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.embed-dots { display: flex; gap: 5px; }
+
+.embed-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+}
+
+.embed-dot:nth-child(1) { background: #ff5f57; }
+.embed-dot:nth-child(2) { background: #ffbd2e; }
+.embed-dot:nth-child(3) { background: #28c840; }
+
+.embed-url {
+  flex: 1;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 5px 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.embed-live {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: #28c840;
+  letter-spacing: 0.8px;
+}
+
+.live-dot {
+  width: 5px; height: 5px;
+  background: #28c840;
+  border-radius: 50%;
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+iframe {
+  width: 100%;
+  height: 860px;
+  border: none;
+  display: block;
+}
+
+/* ── WHAT'S NEXT ── */
+.next-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 8px;
+}
+
+.next-card {
+  background: var(--off-white);
+  padding: 28px;
+  border-radius: 0;
+}
+
+.next-card:first-child { border-radius: 6px 0 0 6px; }
+.next-card:last-child { border-radius: 0 6px 6px 0; }
+
+.next-card-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 10px;
+}
+
+.next-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.next-card-desc {
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 48px 56px;
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+}
+
+.footer-bio h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--black);
+  margin-bottom: 6px;
+}
+
+.footer-bio p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  max-width: 420px;
+  font-weight: 300;
+}
+
+.footer-links {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  padding: 11px 18px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.18s;
+}
+
+.footer-link.outline {
+  border: 1px solid var(--border-dark);
+  color: var(--ink-soft);
+}
+
+.footer-link.outline:hover { border-color: var(--black); color: var(--black); }
+
+.footer-link.filled {
+  background: var(--black);
+  color: var(--white);
+  border: 1px solid var(--black);
+}
+
+.footer-link.filled:hover { background: var(--amber); border-color: var(--amber); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 0 24px; }
+  .hero { padding: 100px 24px 60px; }
+  .hero::before { font-size: 160px; right: -10px; top: 80px; }
+  .section-inner { padding: 56px 24px; }
+  .problem-split { grid-template-columns: 1fr; gap: 36px; }
+  .decisions-header { grid-template-columns: 1fr; gap: 20px; }
+  .decision-row { grid-template-columns: 36px 1fr; }
+  .decision-tradeoff { display: none; }
+  .build-note { grid-template-columns: 1fr; gap: 24px; padding: 28px; }
+  .tool-section-inner { padding: 56px 24px; }
+  .tool-intro { grid-template-columns: 1fr; gap: 28px; }
+  .tool-flow { flex-direction: column; }
+  .tool-flow-step { border-right: none; border-bottom: 1px solid var(--border); }
+  .tool-flow-step:last-child { border-bottom: none; }
+  .tool-arrow { display: none; }
+  .next-grid { grid-template-columns: 1fr; }
+  .next-card { border-radius: 0 !important; }
+  iframe { height: 700px; }
+  footer { padding: 40px 24px; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+  .hero-stats { flex-direction: column; }
+  .hero-stat { border-right: none; border-bottom: 1px solid var(--border); }
+  .hero-stat:last-child { border-bottom: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <span class="nav-wordmark">LawFund</span>
+    <span class="nav-slash">/</span>
+    <span class="nav-author">Whitney Beamer · Work Sample</span>
+  </div>
+  <div class="nav-right">
+    <a href="#problem" class="nav-link">Problem</a>
+    <a href="#decisions" class="nav-link">Decisions</a>
+    <a href="#tool" class="nav-link">Live Tool</a>
+    <a href="https://www.linkedin.com/in/whitneybeamer/" target="_blank" class="nav-link">LinkedIn ↗</a>
+    <a href="#tool" class="nav-cta">Try It →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-meta-row">
+      <div class="meta-tag black">Square APM Application · 2026</div>
+      <div class="meta-tag amber">Work Sample</div>
+      <div class="meta-divider"></div>
+      <div class="meta-date">February 2026</div>
+    </div>
+
+    <h1>The federal cap<br>created a gap.<br><em>Appeals close it.</em></h1>
+
+    <p class="hero-deck">
+      The One Big Beautiful Bill capped JD student federal loans at $50K/year and eliminated Grad PLUS — effective July 2026. At most top law schools, tuition already exceeds that cap. The gap must come from institutional scholarships. Most students don't know they can ask for more. LawFund changes that.
+    </p>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-val amber">$50K</div>
+        <div class="hero-stat-label">New annual federal cap for JD students under the One Big Beautiful Bill Act</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val red">$80K+</div>
+        <div class="hero-stat-label">Annual tuition at many top law schools — already above the cap before living costs</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">Appeals</div>
+        <div class="hero-stat-label">Work — law schools have enormous flexibility in merit aid. Almost no student knows this or how to do it.</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">3 steps</div>
+        <div class="hero-stat-label">Decode your offer. Compare your options. Generate a professional appeal letter with your exact numbers.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="section" id="problem">
+  <div class="section-inner">
+    <div class="section-eyebrow">
+      <span class="eyebrow-num">01</span>
+      <span class="eyebrow-title">The Problem</span>
+      <div class="eyebrow-rule"></div>
+    </div>
+
+    <div class="problem-split">
+      <div>
+        <div class="problem-headline">
+          Law school financial aid is a <em>closed system</em> for students who don't know how it works.
+        </div>
+        <div class="callout-box">
+          <p>The students most likely to need scholarship money are the least likely to know they can negotiate for it — or how to do it professionally enough for a financial aid office to take seriously.</p>
+        </div>
+      </div>
+
+      <div class="problem-body">
+        <p>Before July 2026, a law student who couldn't cover their cost of attendance could borrow the remainder via Grad PLUS — up to the full COA. That safety valve is gone. The new $50K annual cap for JD students means every dollar above that limit must come from somewhere else: institutional scholarship, private loans at potentially high rates, or family money.</p>
+
+        <p>The problem compounds because law school award letters are opaque. Schools present aid packages in ways that obscure what's free money, what's a loan, and what the real 3-year cost is. A first-generation law student receiving their first offer has no reference point for what "good" looks like, no frame for what's negotiable, and no idea that financial aid offices respond to well-constructed appeals.</p>
+
+        <p>I built LawFund to solve three things in sequence: decode what an offer actually means, compare it against alternatives to identify leverage, and generate the appeal letter that most students don't know they're allowed to write.</p>
+
+        <p>This is an equity problem dressed as a financial problem. The students with access to law school consultants and financially sophisticated family networks know all of this. Everyone else is leaving tens of thousands of dollars on the table — or worse, taking on private loan debt they didn't know was avoidable.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DECISIONS -->
+<section class="section" id="decisions">
+  <div class="section-inner">
+    <div class="section-eyebrow">
+      <span class="eyebrow-num">02</span>
+      <span class="eyebrow-title">The PM Decisions</span>
+      <div class="eyebrow-rule"></div>
+    </div>
+
+    <div class="decisions-header">
+      <div class="decisions-intro">
+        <h2>Why it's built the way it is</h2>
+        <p>Every structural decision was intentional. The things I didn't build matter as much as what I did.</p>
+      </div>
+      <div></div>
+    </div>
+
+    <div class="decisions-list">
+      <div class="decision-row">
+        <div class="decision-index">D·01</div>
+        <div class="decision-content">
+          <div class="decision-title">Three connected stages, not a single tool</div>
+          <div class="decision-desc">Decode → Compare → Appeal is a lifecycle, not three features. Each stage produces output the next stage uses. A student who only needs the appeal letter can skip to Step 3. A student who hasn't decoded their offer yet doesn't know what to put in an appeal. The flow is sequenced around the actual decision they're making, not around what's easiest to build.</div>
+        </div>
+        <div class="decision-tradeoff">Scope → lifecycle</div>
+      </div>
+
+      <div class="decision-row">
+        <div class="decision-index">D·02</div>
+        <div class="decision-content">
+          <div class="decision-title">The federal cap is baked into every calculation</div>
+          <div class="decision-desc">The tool doesn't just show cost of attendance minus scholarship. It calculates available federal loans against the $50K/year cap and the student's existing undergrad debt against the $200K lifetime limit — then surfaces the real gap. This is the number that determines whether an appeal is necessary and how much to ask for. Most tools miss this entirely.</div>
+        </div>
+        <div class="decision-tradeoff">Precision → trust</div>
+      </div>
+
+      <div class="decision-row">
+        <div class="decision-index">D·03</div>
+        <div class="decision-content">
+          <div class="decision-title">Two separate AI calls on the appeal step</div>
+          <div class="decision-desc">The appeal letter and the submission guidance are generated by separate API calls with different system prompts. One prompt is optimized for professional letter-writing with specific financial detail. The other is optimized for tactical advice: who to address, when to send, what most students forget. Combining them would produce a mediocre version of both. Separating them produces two excellent outputs.</div>
+        </div>
+        <div class="decision-tradeoff">Quality → two calls</div>
+      </div>
+
+      <div class="decision-row">
+        <div class="decision-index">D·04</div>
+        <div class="decision-content">
+          <div class="decision-title">The letter uses the student's actual numbers, not templates</div>
+          <div class="decision-desc">Financial aid offices receive hundreds of appeal letters. The ones that work cite specific figures, reference the school's own aid packaging, and make a clear, quantified ask. Generic template letters get ignored. The system prompt explicitly instructs the model to reference the gap amount, the federal cap context, and the competing offer (if any) — because those specifics are what make the letter credible.</div>
+        </div>
+        <div class="decision-tradeoff">Specificity → effectiveness</div>
+      </div>
+
+      <div class="decision-row">
+        <div class="decision-index">D·05</div>
+        <div class="decision-content">
+          <div class="decision-title">No login, no data stored, no friction</div>
+          <div class="decision-desc">A law student sharing their financial situation is sharing sensitive information — family income, hardship circumstances, debt levels. Adding any storage or account layer creates both a trust barrier and a real privacy obligation. The tool works immediately, collects nothing, and stores nothing. That's appropriate for v1, where the goal is to get people to use it — not to build a database.</div>
+        </div>
+        <div class="decision-tradeoff">Trust → zero storage</div>
+      </div>
+
+      <div class="decision-row">
+        <div class="decision-index">D·06</div>
+        <div class="decision-content">
+          <div class="decision-title">Need-based hardship appeals only — not merit negotiation</div>
+          <div class="decision-desc">Merit negotiation (using a competing offer to extract more money from a higher-ranked school) is a real strategy — and the tool supports competing offer comparisons. But the appeal generator is scoped to need-based hardship because that's the most underserved scenario, the highest-stakes, and the one where a well-written letter makes the biggest difference. Trying to serve every appeal type in v1 would produce a worse tool for all of them.</div>
+        </div>
+        <div class="decision-tradeoff">Focus → depth</div>
+      </div>
+    </div>
+
+    <div class="build-note">
+      <div class="build-note-left">
+        <h3>Built in a weekend with AI as a collaborator — not a shortcut.</h3>
+        <p>The product decisions above are mine. The code was generated using Claude as a coding partner. That's the AI-native PM workflow — using AI to compress implementation time while maintaining full ownership of the product judgment. I can speak to every decision in this document in an interview.</p>
+      </div>
+      <div class="build-note-right">
+        <div class="build-fact">
+          <div class="build-fact-icon">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="build-fact-text"><strong>Problem identified</strong> from real policy change — the Big Beautiful Bill's July 2026 Grad PLUS elimination</div>
+        </div>
+        <div class="build-fact">
+          <div class="build-fact-icon">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="build-fact-text"><strong>Scope decisions made deliberately</strong> — need-based appeals only, no login, lifecycle flow over feature set</div>
+        </div>
+        <div class="build-fact">
+          <div class="build-fact-icon">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="build-fact-text"><strong>Federal cap math verified</strong> against ABA, AccessLex, and Harvard SFS sources before building</div>
+        </div>
+        <div class="build-fact">
+          <div class="build-fact-icon">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="build-fact-text"><strong>System prompts engineered</strong> for specificity — the letter uses real numbers, not filler placeholders</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOL -->
+<section class="tool-section" id="tool">
+  <div class="tool-section-inner">
+    <div class="section-eyebrow">
+      <span class="eyebrow-num">03</span>
+      <span class="eyebrow-title">The Live Tool</span>
+      <div class="eyebrow-rule"></div>
+    </div>
+
+    <div class="tool-intro">
+      <h2>Try it.<br><em>Real numbers,<br>real output.</em></h2>
+      <div class="tool-intro-right">
+        <p>This is a working tool — not a mockup. Enter actual award letter figures and get a plain-language breakdown of your real costs, a side-by-side comparison of competing offers, and a complete appeal letter you can send. The AI uses your numbers, not placeholders.</p>
+        <p>If you don't have an award letter handy, try these sample figures: School A — Georgetown Law, $73,000 tuition, $25,000 living, $18,000 scholarship. School B — Fordham Law, $64,000 tuition, $22,000 living, $26,000 scholarship.</p>
+      </div>
+    </div>
+
+    <div class="tool-flow">
+      <div class="tool-flow-step">
+        <div class="tool-arrow">
+          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+        <div class="tool-flow-num">STEP 01</div>
+        <div class="tool-flow-name">Decode</div>
+        <div class="tool-flow-desc">Enter your award letter. Get real cost, federal cap gap, 3-year debt exposure, and AI analysis.</div>
+      </div>
+      <div class="tool-flow-step">
+        <div class="tool-arrow">
+          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+        <div class="tool-flow-num">STEP 02</div>
+        <div class="tool-flow-name">Compare</div>
+        <div class="tool-flow-desc">Add a second offer. Side-by-side comparison with negotiation intelligence and leverage analysis.</div>
+      </div>
+      <div class="tool-flow-step">
+        <div class="tool-flow-num">STEP 03</div>
+        <div class="tool-flow-name">Appeal</div>
+        <div class="tool-flow-desc">Generate a complete, specific appeal letter using your actual numbers — plus submission guidance.</div>
+      </div>
+    </div>
+
+    <div class="embed-shell">
+      <div class="embed-bar">
+        <div class="embed-dots">
+          <div class="embed-dot"></div>
+          <div class="embed-dot"></div>
+          <div class="embed-dot"></div>
+        </div>
+        <div class="embed-url">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          lawfund.io/advisor
+        </div>
+        <div class="embed-live">
+          <div class="live-dot"></div>
+          LIVE
+        </div>
+      </div>
+      <iframe src="lawfund.html" title="LawFund — Law School Financial Aid Intelligence"></iframe>
+    </div>
+
+    <div style="margin-top: 48px;">
+      <div class="section-eyebrow" style="margin-bottom: 28px;">
+        <span class="eyebrow-num">V2</span>
+        <span class="eyebrow-title">Where This Goes Next</span>
+        <div class="eyebrow-rule"></div>
+      </div>
+      <div class="next-grid">
+        <div class="next-card">
+          <div class="next-card-tag">Revenue Model</div>
+          <div class="next-card-title">School partnership data layer</div>
+          <div class="next-card-desc">Law schools want to attract and yield high-quality students. A platform that connects students with financial fit data — and helps them navigate aid conversations — creates a two-sided value proposition.</div>
+        </div>
+        <div class="next-card">
+          <div class="next-card-tag">Product Expansion</div>
+          <div class="next-card-title">Merit negotiation engine</div>
+          <div class="next-card-desc">Need-based hardship appeals are v1. Merit negotiation using competing offers is a distinct flow with different tactics — higher upside for students with multiple offers from peer-ranked schools.</div>
+        </div>
+        <div class="next-card">
+          <div class="next-card-tag">Distribution</div>
+          <div class="next-card-title">Pre-law advisor integration</div>
+          <div class="next-card-desc">The most trusted touchpoint for law school financial guidance is the pre-law advisor. Embedding LawFund into advising workflows — as a tool advisors share with students — creates viral distribution through trust.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-bio">
+      <h3>Whitney Beamer</h3>
+      <p>Growth PM with 4+ years building AI-powered products, activation funnels, and lifecycle systems at scale. Founder of Acceptance Scholars. Applying to the Square APM Program, 2026. This tool was researched, designed, and directed by me — the code was generated using Claude as a collaborator.</p>
+    </div>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/whitneybeamer/" target="_blank" class="footer-link outline">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="mailto:whitneybeamer@gmail.com" class="footer-link filled">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        whitneybeamer@gmail.com
+      </a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LawFund — Law School Financial Aid Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  --navy: #0f1923;
+  --navy-mid: #162030;
+  --navy-light: #1e2d3d;
+  --navy-border: #243548;
+  --navy-soft: #2d4158;
+  --slate: #8fa3b8;
+  --slate-light: #b8cad8;
+  --white: #f0f4f8;
+  --off-white: #e8eef4;
+  --amber: #e8a838;
+  --amber-dark: #c48820;
+  --amber-pale: #1f1a0e;
+  --red: #e05050;
+  --green: #3dba7e;
+  --green-pale: #0d1f18;
+  --border: #1e2d3d;
+  --text: #d8e4f0;
+  --text-mid: #8fa3b8;
+  --text-soft: #4a6070;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--navy);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 15px;
+}
+
+/* Grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
+
+/* ── HEADER ── */
+header {
+  padding: 32px 0 28px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.brand-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.3px;
+}
+
+.brand-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--amber);
+  letter-spacing: 1px;
+  background: var(--amber-pale);
+  border: 1px solid rgba(232,168,56,0.25);
+  padding: 3px 8px;
+  border-radius: 2px;
+}
+
+.alert-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--amber);
+  letter-spacing: 0.5px;
+}
+
+.alert-dot {
+  width: 6px; height: 6px;
+  background: var(--amber);
+  border-radius: 50%;
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* ── HERO ── */
+.hero {
+  margin-bottom: 52px;
+  animation: fadeUp 0.5s ease both;
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 5.5vw, 58px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--white);
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--amber);
+}
+
+.hero-sub {
+  font-size: 15px;
+  color: var(--text-mid);
+  line-height: 1.7;
+  max-width: 580px;
+  font-weight: 300;
+  margin-bottom: 28px;
+}
+
+.law-facts {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--navy-border);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
+.law-fact {
+  flex: 1;
+  padding: 16px 20px;
+  border-right: 1px solid var(--navy-border);
+}
+.law-fact:last-child { border-right: none; }
+
+.law-fact-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--amber);
+  letter-spacing: -0.5px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.law-fact-label {
+  font-size: 11px;
+  color: var(--text-soft);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* ── PROGRESS STEPS ── */
+.steps-nav {
+  display: flex;
+  gap: 0;
+  margin-bottom: 36px;
+  border: 1px solid var(--navy-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.step-tab {
+  flex: 1;
+  padding: 14px 16px;
+  border-right: 1px solid var(--navy-border);
+  cursor: default;
+  position: relative;
+  transition: background 0.2s;
+}
+
+.step-tab:last-child { border-right: none; }
+
+.step-tab.active { background: var(--navy-light); }
+
+.step-tab.done { background: var(--green-pale); }
+
+.step-tab-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--text-soft);
+  letter-spacing: 1px;
+  margin-bottom: 3px;
+}
+
+.step-tab.active .step-tab-num { color: var(--amber); }
+.step-tab.done .step-tab-num { color: var(--green); }
+
+.step-tab-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-soft);
+  line-height: 1.3;
+}
+
+.step-tab.active .step-tab-name { color: var(--white); }
+.step-tab.done .step-tab-name { color: var(--green); }
+
+/* ── PANELS ── */
+.panel {
+  animation: fadeUp 0.35s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.panel-header {
+  margin-bottom: 28px;
+}
+
+.panel-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--amber);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.panel-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+  margin-bottom: 6px;
+}
+
+.panel-sub {
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+/* ── CARD ── */
+.card {
+  background: var(--navy-mid);
+  border: 1px solid var(--navy-border);
+  border-radius: 8px;
+  padding: 28px;
+  margin-bottom: 16px;
+}
+
+/* ── FORM ── */
+.field { margin-bottom: 18px; }
+
+.field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  margin-bottom: 8px;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 11px 14px;
+  background: var(--navy);
+  border: 1px solid var(--navy-border);
+  border-radius: 5px;
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--amber);
+  box-shadow: 0 0 0 2px rgba(232,168,56,0.12);
+}
+
+.field input::placeholder,
+.field textarea::placeholder { color: var(--text-soft); }
+
+.field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238fa3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.field select option { background: var(--navy-mid); color: var(--text); }
+
+.field textarea { resize: none; height: 110px; line-height: 1.6; }
+
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.field-hint {
+  font-size: 11px;
+  color: var(--text-soft);
+  margin-top: 5px;
+  line-height: 1.5;
+}
+
+/* ── BBB CALLOUT ── */
+.bbb-callout {
+  background: var(--amber-pale);
+  border: 1px solid rgba(232,168,56,0.2);
+  border-radius: 6px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.bbb-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.bbb-text {
+  font-size: 12px;
+  color: var(--amber);
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.bbb-text strong { font-weight: 600; }
+
+/* ── BUTTONS ── */
+.btn-row { display: flex; align-items: center; justify-content: space-between; margin-top: 24px; }
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--amber);
+  color: var(--navy);
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  padding: 12px 22px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.btn-primary:hover { background: #f0b840; transform: translateY(-1px); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: var(--text-soft);
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 10px 14px;
+  border-radius: 5px;
+  border: 1px solid var(--navy-border);
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.btn-ghost:hover { border-color: var(--slate); color: var(--text); }
+
+/* ── RESULTS ── */
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px;
+  margin-bottom: 20px;
+  border: 1px solid var(--navy-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.result-cell {
+  background: var(--navy-mid);
+  padding: 18px 20px;
+}
+
+.result-cell-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  margin-bottom: 6px;
+}
+
+.result-cell-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.result-cell-val.danger { color: var(--red); }
+.result-cell-val.warning { color: var(--amber); }
+.result-cell-val.good { color: var(--green); }
+.result-cell-val.neutral { color: var(--white); }
+
+.result-cell-note {
+  font-size: 11px;
+  color: var(--text-soft);
+  line-height: 1.4;
+}
+
+/* ── AI OUTPUT AREA ── */
+.ai-output {
+  background: var(--navy);
+  border: 1px solid var(--navy-border);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.ai-output-header {
+  padding: 10px 16px;
+  background: var(--navy-mid);
+  border-bottom: 1px solid var(--navy-border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--amber);
+  letter-spacing: 1px;
+}
+
+.ai-output-body {
+  padding: 20px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-mid);
+  min-height: 80px;
+}
+
+.ai-output-body p { margin-bottom: 12px; }
+.ai-output-body p:last-child { margin-bottom: 0; }
+
+.ai-output-body strong { color: var(--white); font-weight: 600; }
+
+/* ── LETTER OUTPUT ── */
+.letter-box {
+  background: var(--navy);
+  border: 1px solid var(--navy-border);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.letter-header {
+  padding: 10px 16px;
+  background: var(--navy-mid);
+  border-bottom: 1px solid var(--navy-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.letter-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--green);
+  letter-spacing: 1px;
+}
+
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: 1px solid var(--navy-border);
+  color: var(--text-soft);
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.copy-btn:hover { border-color: var(--green); color: var(--green); }
+
+.letter-body {
+  padding: 28px 32px;
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--text-mid);
+  white-space: pre-wrap;
+  font-family: 'Outfit', sans-serif;
+}
+
+/* ── COMPARISON TABLE ── */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+.compare-table th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  padding: 10px 14px;
+  text-align: left;
+  background: var(--navy-mid);
+  border: 1px solid var(--navy-border);
+}
+
+.compare-table td {
+  padding: 11px 14px;
+  border: 1px solid var(--navy-border);
+  color: var(--text);
+  vertical-align: top;
+  line-height: 1.4;
+}
+
+.compare-table tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+
+.compare-table td.winner { color: var(--green); font-weight: 500; }
+.compare-table td.loser { color: var(--red); }
+.compare-table td.label { color: var(--text-mid); font-size: 12px; }
+
+/* ── LOADING ── */
+.loading-bar {
+  height: 2px;
+  background: var(--navy-border);
+  border-radius: 1px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.loading-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--amber), var(--amber-dark));
+  width: 0%;
+  border-radius: 1px;
+  animation: loadSweep 1.8s ease infinite;
+}
+
+@keyframes loadSweep {
+  0% { width: 0%; margin-left: 0%; }
+  50% { width: 60%; margin-left: 20%; }
+  100% { width: 0%; margin-left: 100%; }
+}
+
+.loading-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-soft);
+  letter-spacing: 1px;
+  text-align: center;
+  padding: 20px;
+}
+
+/* ── SKIP LINK ── */
+.skip-compare {
+  font-size: 12px;
+  color: var(--text-soft);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.18s;
+}
+
+.skip-compare:hover { color: var(--slate-light); }
+
+.hidden { display: none !important; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .field-row { grid-template-columns: 1fr; }
+  .result-grid { grid-template-columns: 1fr; }
+  .law-facts { flex-direction: column; }
+  .law-fact { border-right: none; border-bottom: 1px solid var(--navy-border); }
+  .law-fact:last-child { border-bottom: none; }
+  header { flex-direction: column; align-items: flex-start; gap: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <header>
+    <div class="brand">
+      <span class="brand-name">LawFund</span>
+      <span class="brand-tag">BETA · 2026</span>
+    </div>
+    <div class="alert-banner">
+      <div class="alert-dot"></div>
+      Grad PLUS ends July 1, 2026
+    </div>
+  </header>
+
+  <!-- HERO (step 1 only) -->
+  <div id="hero">
+    <div class="hero">
+      <h1>Your law school offer,<br><em>decoded. Compared.<br>Challenged.</em></h1>
+      <p class="hero-sub">
+        The One Big Beautiful Bill just capped federal law school loans at $50K/year and eliminated Grad PLUS. For most students at most schools, that creates a funding gap. This tool helps you understand it — and fight for the scholarship money that closes it.
+      </p>
+
+      <div class="law-facts">
+        <div class="law-fact">
+          <div class="law-fact-val">$50K</div>
+          <div class="law-fact-label">New annual federal cap for JD students (down from full COA)</div>
+        </div>
+        <div class="law-fact">
+          <div class="law-fact-val">$80K+</div>
+          <div class="law-fact-label">Annual tuition at many top law schools — already above the cap</div>
+        </div>
+        <div class="law-fact">
+          <div class="law-fact-val">$0</div>
+          <div class="law-fact-label">Cost of asking your school to reconsider your scholarship award</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP TABS -->
+  <div class="steps-nav" id="stepNav">
+    <div class="step-tab active" id="tab-1">
+      <div class="step-tab-num">STEP 01</div>
+      <div class="step-tab-name">Decode Your Offer</div>
+    </div>
+    <div class="step-tab" id="tab-2">
+      <div class="step-tab-num">STEP 02</div>
+      <div class="step-tab-name">Compare Offers</div>
+    </div>
+    <div class="step-tab" id="tab-3">
+      <div class="step-tab-num">STEP 03</div>
+      <div class="step-tab-name">Generate Appeal</div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 1: DECODE ══ -->
+  <div id="step1" class="panel">
+    <div class="panel-header">
+      <div class="panel-label">Step 01 — Decode</div>
+      <div class="panel-title">What does your offer actually say?</div>
+      <div class="panel-sub">Enter your award letter details and we'll translate it into what you actually owe — and how far the federal cap leaves you short.</div>
+    </div>
+
+    <div class="bbb-callout">
+      <div class="bbb-icon">⚠</div>
+      <div class="bbb-text"><strong>New for fall 2026:</strong> Grad PLUS loans are eliminated. JD students are capped at $50,000/year in federal Direct Unsubsidized loans ($200,000 lifetime). If your cost of attendance exceeds this, the gap must come from institutional scholarships or private loans.</div>
+    </div>
+
+    <div class="card">
+      <div class="field">
+        <label>Law School Name</label>
+        <input type="text" id="school1" placeholder="e.g. Georgetown University Law Center">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Annual Tuition & Fees ($)</label>
+          <input type="number" id="tuition1" placeholder="e.g. 72000">
+        </div>
+        <div class="field">
+          <label>Annual Living/Housing Costs ($)</label>
+          <input type="number" id="living1" placeholder="e.g. 24000">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Scholarship / Grant Offered ($)</label>
+          <input type="number" id="scholarship1" placeholder="e.g. 15000">
+          <div class="field-hint">Free money only — not loans or work-study</div>
+        </div>
+        <div class="field">
+          <label>Other Aid Offered ($)</label>
+          <input type="number" id="other1" placeholder="e.g. 0">
+          <div class="field-hint">Fellowships, grants from external sources</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Existing Federal Loan Debt (from undergrad)</label>
+        <input type="number" id="existingdebt" placeholder="e.g. 28000">
+        <div class="field-hint">Counts toward your $257,500 lifetime federal limit</div>
+      </div>
+
+      <div class="btn-row">
+        <div></div>
+        <button class="btn-primary" onclick="decodeOffer()">
+          Decode This Offer
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- DECODE RESULTS -->
+    <div id="decodeResults" class="hidden">
+      <div class="result-grid" id="resultGrid"></div>
+      <div class="ai-output" id="decodeAI">
+        <div class="ai-output-header">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+          AI ANALYSIS
+        </div>
+        <div class="ai-output-body" id="decodeAIBody">
+          <div class="loading-bar"><div class="loading-fill"></div></div>
+          <div class="loading-text">Analyzing your offer...</div>
+        </div>
+      </div>
+      <div class="btn-row" style="margin-top:0">
+        <span class="skip-compare" onclick="skipToAppeal()">Skip to appeal letter →</span>
+        <button class="btn-primary" onclick="goToStep2()">
+          Compare with Another Offer
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 2: COMPARE ══ -->
+  <div id="step2" class="panel hidden">
+    <div class="panel-header">
+      <div class="panel-label">Step 02 — Compare</div>
+      <div class="panel-title">Stack your offers side by side</div>
+      <div class="panel-sub">A competing offer is your strongest leverage for an appeal. Enter your second offer and we'll show you which school has more room to move — and why.</div>
+    </div>
+
+    <div class="card">
+      <div class="field">
+        <label>Second Law School Name</label>
+        <input type="text" id="school2" placeholder="e.g. Fordham University School of Law">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Annual Tuition & Fees ($)</label>
+          <input type="number" id="tuition2" placeholder="e.g. 65000">
+        </div>
+        <div class="field">
+          <label>Annual Living Costs ($)</label>
+          <input type="number" id="living2" placeholder="e.g. 22000">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Scholarship / Grant Offered ($)</label>
+          <input type="number" id="scholarship2" placeholder="e.g. 22000">
+        </div>
+        <div class="field">
+          <label>Other Aid ($)</label>
+          <input type="number" id="other2" placeholder="e.g. 0">
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-ghost" onclick="goToStep1()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Back
+        </button>
+        <button class="btn-primary" onclick="compareOffers()">
+          Compare Offers
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="compareResults" class="hidden">
+      <div id="compareTable"></div>
+      <div class="ai-output" id="compareAI">
+        <div class="ai-output-header">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+          NEGOTIATION INTELLIGENCE
+        </div>
+        <div class="ai-output-body" id="compareAIBody">
+          <div class="loading-bar"><div class="loading-fill"></div></div>
+          <div class="loading-text">Building comparison...</div>
+        </div>
+      </div>
+      <div class="btn-row" style="margin-top:0">
+        <div></div>
+        <button class="btn-primary" onclick="goToStep3()">
+          Generate Appeal Letter
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 3: APPEAL ══ -->
+  <div id="step3" class="panel hidden">
+    <div class="panel-header">
+      <div class="panel-label">Step 03 — Appeal</div>
+      <div class="panel-title">Make the case for more</div>
+      <div class="panel-sub">Most students don't appeal because they don't know they can — or they don't know how. This generates a professional, specific letter using your actual numbers and situation.</div>
+    </div>
+
+    <div class="card">
+      <div class="field">
+        <label>Which school are you appealing to?</label>
+        <input type="text" id="appealSchool" placeholder="e.g. Georgetown University Law Center">
+      </div>
+      <div class="field">
+        <label>Primary reason for appeal</label>
+        <select id="appealReason">
+          <option value="">Select the strongest basis for your appeal</option>
+          <option value="gap">Federal loan cap creates a gap my offer doesn't cover</option>
+          <option value="competing">I have a stronger financial offer from another school</option>
+          <option value="hardship">Significant change in my family's financial circumstances</option>
+          <option value="both">Both a competing offer and a financial hardship</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Describe your financial situation or hardship</label>
+        <textarea id="hardship" placeholder="Be specific. E.g.: My father was laid off in January and our household income dropped significantly. My family can no longer contribute the expected family contribution. I have X in undergrad loans and the gap between my offer and the new federal cap means I would need to borrow from private lenders at rates up to 14%."></textarea>
+        <div class="field-hint">The more specific you are, the stronger the letter. Include numbers where you have them.</div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Your name</label>
+          <input type="text" id="appealName" placeholder="e.g. Jordan Williams">
+        </div>
+        <div class="field">
+          <label>Amount you're requesting ($)</label>
+          <input type="number" id="appealAmount" placeholder="e.g. 15000">
+          <div class="field-hint">Annual additional scholarship</div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-ghost" onclick="goToStep2FromAppeal()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Back
+        </button>
+        <button class="btn-primary" id="generateBtn" onclick="generateAppeal()">
+          Generate Appeal Letter
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="appealResult" class="hidden">
+      <div class="letter-box">
+        <div class="letter-header">
+          <div class="letter-header-left">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            SCHOLARSHIP APPEAL LETTER
+          </div>
+          <button class="copy-btn" onclick="copyLetter()">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copy Letter
+          </button>
+        </div>
+        <div class="letter-body" id="letterContent">
+          <div class="loading-bar"><div class="loading-fill"></div></div>
+          <div class="loading-text">Drafting your appeal letter...</div>
+        </div>
+      </div>
+
+      <div class="ai-output" id="appealTips">
+        <div class="ai-output-header">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+          SUBMISSION GUIDANCE
+        </div>
+        <div class="ai-output-body" id="appealTipsBody">
+          <div class="loading-bar"><div class="loading-fill"></div></div>
+          <div class="loading-text">Generating submission tips...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const state = {
+  school1: '', tuition1: 0, living1: 0, scholarship1: 0, other1: 0, existingDebt: 0,
+  school2: '', tuition2: 0, living2: 0, scholarship2: 0, other2: 0,
+  gap1: 0, gap2: 0,
+  letterText: ''
+};
+
+const FED_CAP = 50000;
+const LIFETIME_CAP = 200000;
+
+function fmt(n) {
+  return '$' + Math.round(n).toLocaleString();
+}
+
+function setTab(n) {
+  for (let i = 1; i <= 3; i++) {
+    const tab = document.getElementById(`tab-${i}`);
+    tab.className = 'step-tab';
+    if (i < n) tab.classList.add('done');
+    else if (i === n) tab.classList.add('active');
+  }
+}
+
+function showPanel(n) {
+  ['step1','step2','step3'].forEach((id, i) => {
+    document.getElementById(id).classList.toggle('hidden', i + 1 !== n);
+  });
+  setTab(n);
+  if (n > 1) document.getElementById('hero').classList.add('hidden');
+}
+
+async function callClaude(systemPrompt, userMessage) {
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userMessage }]
+    })
+  });
+  const data = await response.json();
+  return data.content?.[0]?.text || 'Unable to generate analysis. Please try again.';
+}
+
+function renderBodyHTML(text) {
+  return text.split('\n').filter(l => l.trim()).map(line => `<p>${line.trim()}</p>`).join('');
+}
+
+// ── STEP 1: DECODE ──
+async function decodeOffer() {
+  state.school1 = document.getElementById('school1').value.trim() || 'Your Law School';
+  state.tuition1 = parseFloat(document.getElementById('tuition1').value) || 0;
+  state.living1 = parseFloat(document.getElementById('living1').value) || 0;
+  state.scholarship1 = parseFloat(document.getElementById('scholarship1').value) || 0;
+  state.other1 = parseFloat(document.getElementById('other1').value) || 0;
+  state.existingDebt = parseFloat(document.getElementById('existingdebt').value) || 0;
+
+  const coa = state.tuition1 + state.living1;
+  const totalAid = state.scholarship1 + state.other1;
+  const remaining = coa - totalAid;
+  const fedAvailable = Math.max(0, Math.min(FED_CAP, LIFETIME_CAP - state.existingDebt));
+  state.gap1 = Math.max(0, remaining - fedAvailable);
+  const threeYearGap = state.gap1 * 3;
+  const threeYearDebt = fedAvailable * 3 + threeYearGap;
+
+  // Auto-fill appeal school
+  document.getElementById('appealSchool').value = state.school1;
+
+  // Build result grid
+  const cells = [
+    { label: 'TRUE ANNUAL COST', val: fmt(coa), cls: 'neutral', note: 'Tuition + living after scholarship' },
+    { label: 'FEDERAL LOAN AVAILABLE', val: fmt(fedAvailable), cls: remaining > fedAvailable ? 'warning' : 'good', note: remaining > fedAvailable ? `Gap: ${fmt(state.gap1)}/yr must come from private loans or more scholarship` : 'Federal aid covers remaining cost' },
+    { label: '3-YEAR TOTAL EXPOSURE', val: fmt(threeYearDebt), cls: threeYearDebt > 150000 ? 'danger' : threeYearDebt > 80000 ? 'warning' : 'good', note: `Estimated full loan burden at graduation` },
+  ];
+
+  document.getElementById('resultGrid').innerHTML = cells.map(c => `
+    <div class="result-cell">
+      <div class="result-cell-label">${c.label}</div>
+      <div class="result-cell-val ${c.cls}">${c.val}</div>
+      <div class="result-cell-note">${c.note}</div>
+    </div>`).join('');
+
+  document.getElementById('decodeResults').classList.remove('hidden');
+  document.getElementById('decodeAIBody').innerHTML = '<div class="loading-bar"><div class="loading-fill"></div></div><div class="loading-text">Analyzing your offer...</div>';
+
+  try {
+    const sys = `You are an expert law school financial aid advisor with deep knowledge of the One Big Beautiful Bill Act's impact on law school financing. Be direct, specific, and honest. Speak to the student like a trusted mentor, not a chatbot. Use their exact numbers.`;
+
+    const msg = `Analyze this law school financial aid situation:
+School: ${state.school1}
+Annual COA: ${fmt(coa)} (tuition ${fmt(state.tuition1)} + living ${fmt(state.living1)})
+Scholarship offered: ${fmt(totalAid)}
+Remaining after scholarship: ${fmt(remaining)}
+Federal loans available: ${fmt(fedAvailable)}/yr (capped at $50K/yr under the One Big Beautiful Bill, with existing debt of ${fmt(state.existingDebt)} counted toward lifetime limit)
+Annual funding gap (must come from private loans or more scholarship): ${fmt(state.gap1)}
+3-year total debt exposure: ${fmt(threeYearDebt)}
+
+Write a 3-paragraph plain-language analysis. First paragraph: explain what their offer actually means in real terms — cut through the jargon. Second paragraph: be direct about the funding gap and what the new federal cap means for them specifically. Third paragraph: tell them concisely whether they should appeal, negotiate, or feel good about this offer — and why. Be honest even if the news is hard. No bullet points.`;
+
+    const text = await callClaude(sys, msg);
+    document.getElementById('decodeAIBody').innerHTML = renderBodyHTML(text);
+  } catch(e) {
+    document.getElementById('decodeAIBody').innerHTML = '<p>Analysis unavailable. Please check your connection and try again.</p>';
+  }
+}
+
+function goToStep1() { showPanel(1); }
+
+// ── STEP 2: COMPARE ──
+function goToStep2() { showPanel(2); }
+
+async function compareOffers() {
+  state.school2 = document.getElementById('school2').value.trim() || 'School 2';
+  state.tuition2 = parseFloat(document.getElementById('tuition2').value) || 0;
+  state.living2 = parseFloat(document.getElementById('living2').value) || 0;
+  state.scholarship2 = parseFloat(document.getElementById('scholarship2').value) || 0;
+  state.other2 = parseFloat(document.getElementById('other2').value) || 0;
+
+  const coa1 = state.tuition1 + state.living1;
+  const coa2 = state.tuition2 + state.living2;
+  const aid1 = state.scholarship1 + state.other1;
+  const aid2 = state.scholarship2 + state.other2;
+  const net1 = coa1 - aid1;
+  const net2 = coa2 - aid2;
+  const fedAvailable = Math.max(0, Math.min(FED_CAP, LIFETIME_CAP - state.existingDebt));
+  state.gap2 = Math.max(0, net2 - fedAvailable);
+  const gap1 = state.gap1;
+
+  const betterNet = net1 <= net2 ? 1 : 2;
+  const betterScholarship = aid1 >= aid2 ? 1 : 2;
+
+  const tableHTML = `
+    <table class="compare-table">
+      <tr>
+        <th>Metric</th>
+        <th>${state.school1}</th>
+        <th>${state.school2}</th>
+      </tr>
+      <tr>
+        <td class="label">Annual Tuition & Fees</td>
+        <td>${fmt(state.tuition1)}</td>
+        <td>${fmt(state.tuition2)}</td>
+      </tr>
+      <tr>
+        <td class="label">Annual Cost of Attendance</td>
+        <td>${fmt(coa1)}</td>
+        <td>${fmt(coa2)}</td>
+      </tr>
+      <tr>
+        <td class="label">Scholarship / Grants</td>
+        <td class="${betterScholarship === 1 ? 'winner' : ''}">${fmt(aid1)}</td>
+        <td class="${betterScholarship === 2 ? 'winner' : ''}">${fmt(aid2)}</td>
+      </tr>
+      <tr>
+        <td class="label">Net Annual Cost After Aid</td>
+        <td class="${betterNet === 1 ? 'winner' : 'loser'}">${fmt(net1)}</td>
+        <td class="${betterNet === 2 ? 'winner' : 'loser'}">${fmt(net2)}</td>
+      </tr>
+      <tr>
+        <td class="label">Annual Federal Loan Available</td>
+        <td>${fmt(fedAvailable)}</td>
+        <td>${fmt(fedAvailable)}</td>
+      </tr>
+      <tr>
+        <td class="label">Annual Private Loan Gap</td>
+        <td class="${gap1 > 0 ? 'loser' : 'winner'}">${gap1 > 0 ? fmt(gap1) : 'None'}</td>
+        <td class="${state.gap2 > 0 ? 'loser' : 'winner'}">${state.gap2 > 0 ? fmt(state.gap2) : 'None'}</td>
+      </tr>
+      <tr>
+        <td class="label">3-Year Total Debt Estimate</td>
+        <td class="${net1 * 3 <= net2 * 3 ? 'winner' : 'loser'}">${fmt(Math.min(fedAvailable, net1) * 3 + gap1 * 3)}</td>
+        <td class="${net2 * 3 <= net1 * 3 ? 'winner' : 'loser'}">${fmt(Math.min(fedAvailable, net2) * 3 + state.gap2 * 3)}</td>
+      </tr>
+    </table>`;
+
+  document.getElementById('compareTable').innerHTML = tableHTML;
+  document.getElementById('compareResults').classList.remove('hidden');
+  document.getElementById('compareAIBody').innerHTML = '<div class="loading-bar"><div class="loading-fill"></div></div><div class="loading-text">Building negotiation analysis...</div>';
+
+  try {
+    const sys = `You are a law school financial aid negotiation expert. You help students use competing offers strategically to maximize scholarship awards. Be direct, tactical, and specific. No platitudes.`;
+
+    const msg = `Compare these two law school offers and advise on negotiation strategy:
+
+${state.school1}: COA ${fmt(coa1)}, scholarship ${fmt(aid1)}, net cost ${fmt(net1)}, annual gap ${gap1 > 0 ? fmt(gap1) : 'none'}
+${state.school2}: COA ${fmt(coa2)}, scholarship ${fmt(aid2)}, net cost ${fmt(net2)}, annual gap ${state.gap2 > 0 ? fmt(state.gap2) : 'none'}
+
+Federal cap context: student is limited to ${fmt(fedAvailable)}/year in federal loans under the One Big Beautiful Bill Act.
+
+In 3 focused paragraphs: (1) Which offer is genuinely stronger and why — be honest including non-financial factors like school quality and career outcomes if relevant. (2) Whether and how the student should use ${state.school2}'s offer as leverage to appeal to ${state.school1}, or vice versa — with specific tactical advice. (3) What dollar amount they should realistically request and how to frame the ask. Be concrete. No bullet points.`;
+
+    const text = await callClaude(sys, msg);
+    document.getElementById('compareAIBody').innerHTML = renderBodyHTML(text);
+  } catch(e) {
+    document.getElementById('compareAIBody').innerHTML = '<p>Analysis unavailable. Please try again.</p>';
+  }
+}
+
+// ── STEP 3: APPEAL ──
+function goToStep3() { showPanel(3); }
+function skipToAppeal() { showPanel(3); }
+function goToStep2FromAppeal() {
+  if (state.school2) showPanel(2);
+  else showPanel(1);
+}
+
+async function generateAppeal() {
+  const school = document.getElementById('appealSchool').value.trim() || state.school1;
+  const reason = document.getElementById('appealReason').value;
+  const hardship = document.getElementById('hardship').value.trim();
+  const name = document.getElementById('appealName').value.trim() || '[Your Name]';
+  const amount = parseFloat(document.getElementById('appealAmount').value) || state.gap1;
+
+  if (!reason) { alert('Please select the basis for your appeal.'); return; }
+  if (!hardship) { alert('Please describe your financial situation — the more specific, the stronger the letter.'); return; }
+
+  document.getElementById('appealResult').classList.remove('hidden');
+  document.getElementById('letterContent').innerHTML = '<div class="loading-bar"><div class="loading-fill"></div></div><div class="loading-text">Drafting your appeal letter...</div>';
+  document.getElementById('appealTipsBody').innerHTML = '<div class="loading-bar"><div class="loading-fill"></div></div><div class="loading-text">Preparing submission guidance...</div>';
+
+  const coa1 = state.tuition1 + state.living1;
+  const aid1 = state.scholarship1 + state.other1;
+  const net1 = coa1 - aid1;
+  const fedAvailable = Math.max(0, Math.min(FED_CAP, LIFETIME_CAP - state.existingDebt));
+
+  try {
+    const sys = `You are an expert at drafting law school financial aid appeal letters. Your letters are professional, specific, deferential in tone, and strategically effective. You write letters that financial aid offices take seriously because they include real numbers, clear rationale, and a specific, reasonable ask. Never be emotional or pleading — be factual and professional.`;
+
+    const reasonContext = {
+      gap: `The primary basis is the funding gap created by the One Big Beautiful Bill Act's elimination of Grad PLUS and the $50,000 annual cap on federal loans. The student's annual cost of attendance of ${fmt(coa1)} exceeds their scholarship of ${fmt(aid1)} plus the federal cap of ${fmt(fedAvailable)}, creating a gap of ${fmt(state.gap1)} per year that cannot be covered by federal loans.`,
+      competing: `The student has a competing offer from ${state.school2 || 'another accredited law school'} with a scholarship of ${fmt(state.scholarship2)} against a net cost of ${fmt(state.tuition2 + state.living2 - state.scholarship2 - state.other2)}.`,
+      hardship: `The primary basis is a significant financial hardship that has changed the student's ability to fund their education.`,
+      both: `The student has both a competing offer and a documented financial hardship.`
+    }[reason];
+
+    const msg = `Draft a professional law school scholarship appeal letter with these specifics:
+
+Student name: ${name}
+Appealing to: ${school}
+Current scholarship offer: ${fmt(aid1)}
+Annual cost of attendance: ${fmt(coa1)}
+Annual federal loan available: ${fmt(fedAvailable)} (capped under One Big Beautiful Bill)
+Annual funding gap: ${fmt(state.gap1)}
+Additional scholarship being requested: ${fmt(amount)}/year
+Reason basis: ${reasonContext}
+Financial situation (in student's own words): ${hardship}
+${state.school2 ? `Competing offer: ${state.school2} offered ${fmt(state.scholarship2)} in scholarship against COA of ${fmt(state.tuition2 + state.living2)}` : ''}
+
+Write a complete, ready-to-send appeal letter. Format: date line, addressing to "Dear Financial Aid Committee," body paragraphs, professional close, signature block for ${name}. 
+
+The letter should: (1) open by expressing genuine enthusiasm for the school and commitment to attending if aid permits, (2) state the financial facts clearly using actual numbers, (3) reference the One Big Beautiful Bill's impact on their specific situation if the gap is relevant, (4) present the hardship factually and specifically without emotional manipulation, (5) make a clear, specific ask for ${fmt(amount)} in additional annual scholarship, (6) close professionally. Keep it under 400 words. Do not use bullet points.`;
+
+    const letter = await callClaude(sys, msg);
+    state.letterText = letter;
+    document.getElementById('letterContent').textContent = letter;
+
+    // Tips
+    const tipsSys = `You are a law school financial aid expert. Give practical, tactical submission advice in 2-3 short paragraphs. Be specific. No platitudes or generic advice.`;
+    const tipsMsg = `Give concise submission guidance for a law school scholarship appeal to ${school}. Cover: (1) who to address and how to submit (email vs portal vs letter), (2) timing — when to send relative to the deadline and when to follow up, (3) one thing students always forget that makes the difference. Keep it to 3 short paragraphs. No bullet points.`;
+
+    const tips = await callClaude(tipsSys, tipsMsg);
+    document.getElementById('appealTipsBody').innerHTML = renderBodyHTML(tips);
+
+  } catch(e) {
+    document.getElementById('letterContent').textContent = 'Error generating letter. Please check your connection and try again.';
+  }
+}
+
+function copyLetter() {
+  if (!state.letterText) return;
+  navigator.clipboard.writeText(state.letterText).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '✓ Copied';
+    setTimeout(() => { btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy Letter`; }, 2000);
+  });
+}
+</script>
+</body>
+</html>
